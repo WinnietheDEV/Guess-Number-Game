@@ -1,11 +1,16 @@
+let isGameOver = false;
 // button elements
 const decreaseBtn = document.querySelector(".decrease");
 const increaseBtn = document.querySelector(".increase");
 const submitBtn = document.querySelector(".submit");
 // number input element
 let input = document.querySelector(".number");
+
+let randomNum = () => {
+  return Math.floor(Math.random() * 20 + 1);
+};
 // random number
-let secretNumber = Math.floor(Math.random() * 20 + 1);
+let secretNumber = randomNum();
 // status text
 let statusText = document.querySelector(".status");
 
@@ -20,14 +25,23 @@ increaseBtn.addEventListener("click", () => {
 });
 submitBtn.addEventListener("click", () => {
   const inputNumber = Number(input.value);
-  if (inputNumber === secretNumber) {
-    statusText.textContent = "correct";
-  } else if (inputNumber < secretNumber) {
-    statusText.textContent = "too low";
-  } else if (inputNumber > secretNumber) {
-    statusText.textContent = "too high";
+  if (!isGameOver) {
+    if (inputNumber === secretNumber) {
+      statusText.textContent = "correct";
+      submitBtn.textContent = "play again";
+      isGameOver = true;
+    } else if (inputNumber < secretNumber) {
+      statusText.textContent = "too low";
+    } else if (inputNumber > secretNumber) {
+      statusText.textContent = "too high";
+    }
+    return;
+  } else {
+    isGameOver = false;
+    statusText.textContent = "Game start";
+    secretNumber = randomNum();
+    input.value = "";
   }
-  console.log(statusText);
 });
 
 console.log(decreaseBtn);
